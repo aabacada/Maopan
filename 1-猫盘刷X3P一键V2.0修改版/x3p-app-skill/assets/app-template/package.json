@@ -1,0 +1,8 @@
+{
+  "name": "yourapp",
+  "version": "1.0.0",
+  "description": "X3P 第三方应用",
+  "main": "server.js",
+  "private": true,
+  "dependencies": {}
+}
