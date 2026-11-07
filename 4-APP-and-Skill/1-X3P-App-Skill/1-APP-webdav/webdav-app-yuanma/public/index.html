@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webdav云盘 - X3P</title>
+  <link rel="stylesheet" href="style.css?v=1.0" />
+</head>
+<body>
+  <div class="app">
+    <!-- 顶部栏 -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">☁️</span>
+        <span class="brand-text">
+          <span class="title">Webdav云盘</span>
+          <span class="app-version" id="app-version" title="当前应用版本">v1.0</span>
+        </span>
+      </div>
+      <!-- 顶部菜单 -->
+      <nav class="topnav">
+        <button id="nav-home" class="nav-item active">服务器列表</button>
+        <button id="nav-settings" class="nav-item">下载设置</button>
+        <button id="nav-downloads" class="nav-item">传输列表</button>
+      </nav>
+      <div class="topbar-actions">
+        <button id="btn-add" class="btn btn-primary">＋ 添加服务器</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- ============ 首页：服务器列表 ============ -->
+      <section id="home-panel" class="panel home-panel">
+        <h2>WebDAV 服务器</h2>
+        <div id="server-list" class="server-list"></div>
+        <div id="server-empty" class="empty hidden">还没有添加服务器，点击右上角「添加服务器」开始。</div>
+        <div id="server-loading" class="loading hidden">加载中…</div>
+      </section>
+
+      <!-- ============ 编辑/添加服务器表单 ============ -->
+      <section id="edit-panel" class="panel config-panel hidden">
+        <h2 id="edit-title">添加服务器</h2>
+        <form id="server-form" class="config-form">
+          <div class="field">
+            <label for="srv-name">备注名称</label>
+            <input type="text" id="srv-name" placeholder="例如：公司网盘、OpenDrive" />
+            <small>用于在列表中区分不同的 WebDAV 服务器</small>
+          </div>
+          <div class="field">
+            <label for="srv-url">服务器地址</label>
+            <input type="text" id="srv-url" placeholder="例如 https://webdav.example.com/dav" />
+            <small>支持 http/https，可不带协议头</small>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="srv-user">账号</label>
+              <input type="text" id="srv-user" placeholder="WebDAV 账号" />
+            </div>
+            <div class="field">
+              <label for="srv-pass">密码</label>
+              <input type="password" id="srv-pass" placeholder="WebDAV 密码" autocomplete="new-password" />
+            </div>
+          </div>
+          <div class="actions">
+            <button type="button" id="btn-cancel-edit" class="btn btn-outline">取消</button>
+            <button type="button" id="btn-test" class="btn btn-outline">测试连接</button>
+            <button type="submit" id="btn-save" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+        <div id="config-msg" class="msg"></div>
+      </section>
+
+      <!-- ============ 下载设置页 ============ -->
+      <section id="settings-panel" class="panel settings-panel hidden">
+        <h2>下载设置</h2>
+        <div class="settings-body">
+          <div class="field">
+            <label for="set-dir">默认下载目录</label>
+            <div class="dir-input-row">
+              <input type="text" id="set-dir" placeholder="请选择或输入本地保存目录" />
+              <button type="button" id="btn-browse-set-dir" class="btn btn-outline">浏览…</button>
+            </div>
+            <small>下载的文件默认保存到此目录。若未设置，首次下载时会提示你先设置</small>
+          </div>
+          <div class="actions">
+            <button type="button" id="btn-save-dir" class="btn btn-primary">保存设置</button>
+          </div>
+          <div id="settings-msg" class="msg"></div>
+        </div>
+      </section>
+
+      <!-- ============ 传输列表页 ============ -->
+      <section id="downloads-panel" class="panel downloads-panel hidden">
+        <!-- 进行中的下载 -->
+        <div id="active-downloads" class="active-downloads hidden">
+          <h3>进行中</h3>
+          <div id="active-list" class="active-list"></div>
+        </div>
+
+        <!-- 历史记录 -->
+        <div class="panel-head">
+          <h2>已完成</h2>
+          <div class="panel-head-actions">
+            <button id="btn-clear-history" class="btn btn-outline btn-sm">清空列表</button>
+          </div>
+        </div>
+        <div id="history-list" class="history-list"></div>
+        <div id="history-empty" class="empty hidden">还没有下载记录</div>
+        <div id="history-loading" class="loading hidden">加载中…</div>
+      </section>
+
+      <!-- ============ 浏览面板 ============ -->
+      <section id="browser-panel" class="panel browser-panel hidden">
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+          <button id="btn-home" class="crumb home" title="回到根目录">根目录</button>
+          <span id="breadcrumb-path" class="crumb-path"></span>
+          <button id="btn-up" class="btn btn-outline btn-sm btn-up">⬆ 返回上级</button>
+          <button id="btn-refresh" class="btn btn-outline btn-sm" title="刷新">↻ 刷新</button>
+        </div>
+
+        <!-- 批量操作栏 -->
+        <div id="batch-bar" class="batch-bar hidden">
+          <label class="batch-check">
+            <input type="checkbox" id="select-all" />
+            <span>全选</span>
+          </label>
+          <span id="batch-count" class="batch-count">已选 0 项</span>
+          <div class="batch-actions">
+            <button id="btn-clear-select" class="btn btn-outline btn-sm">取消选择</button>
+            <button id="btn-batch-download" class="btn btn-primary btn-sm">下载选中</button>
+          </div>
+        </div>
+
+        <!-- 文件列表 -->
+        <div class="file-list-wrap">
+          <div id="file-list" class="file-list"></div>
+          <div id="list-empty" class="empty hidden">此目录为空</div>
+          <div id="list-loading" class="loading hidden">加载中…</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 目录选择弹窗 -->
+  <div id="dir-modal" class="modal hidden">
+    <div class="modal-mask"></div>
+    <div class="modal-box">
+      <div class="modal-head">
+        <span class="modal-title">选择保存目录</span>
+        <button id="dir-close" class="btn btn-ghost btn-sm">✕</button>
+      </div>
+      <!-- 根目录切换 -->
+      <div class="dir-root-tabs">
+        <button id="dir-tab-public" class="dir-tab active">公共目录</button>
+        <button id="dir-tab-home" class="dir-tab">我的文件</button>
+      </div>
+      <div class="modal-breadcrumb">
+        <button id="dir-root" class="crumb home">根目录</button>
+        <span id="dir-crumb" class="crumb-path"></span>
+      </div>
+      <div id="dir-list" class="dir-list"></div>
+      <div class="modal-foot">
+        <div class="dir-current" id="dir-current">/sata/public</div>
+        <div class="modal-actions">
+          <button id="dir-cancel" class="btn btn-outline">取消</button>
+          <button id="dir-ok" class="btn btn-primary">选择此目录</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 批量下载确认弹窗 -->
+  <div id="batch-modal" class="modal hidden">
+    <div class="modal-mask"></div>
+    <div class="modal-box">
+      <div class="modal-head">
+        <span class="modal-title">确认下载</span>
+        <button id="batch-close" class="btn btn-ghost btn-sm">✕</button>
+      </div>
+      <div class="batch-body">
+        <p class="batch-info">即将下载 <strong id="batch-num">0</strong> 个文件：</p>
+        <div id="batch-file-list" class="batch-file-list"></div>
+        <div class="field">
+          <label for="batch-dir">保存到</label>
+          <div class="dir-input-row">
+            <input type="text" id="batch-dir" placeholder="本地保存路径" />
+            <button type="button" id="btn-browse-batch-dir" class="btn btn-outline btn-sm">浏览…</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <span class="batch-hint">确认后开始逐个下载</span>
+        <div class="modal-actions">
+          <button id="batch-cancel" class="btn btn-outline">取消</button>
+          <button id="batch-ok" class="btn btn-primary">开始下载</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提示 Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js?v=1.0"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+/* X3P 应用前端样式骨架 */
+:root {
+  --primary: #3b6fe0;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --text: #1f2937;
+  --text-sub: #6b7280;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--text);
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}

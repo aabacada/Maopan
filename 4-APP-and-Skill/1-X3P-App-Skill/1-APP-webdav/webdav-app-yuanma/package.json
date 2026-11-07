@@ -1,0 +1,14 @@
+{
+  "name": "x3p-webdav",
+  "version": "1.0.0",
+  "description": "大猫盘 NAS (X3P) WebDAV 客户端应用：连接 WebDAV 服务器、浏览文件目录、下载文件到本地存储",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}
