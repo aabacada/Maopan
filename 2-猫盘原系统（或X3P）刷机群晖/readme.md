@@ -53,8 +53,10 @@ upgrade_eli_38.img
 这样把U盘接到猫盘上（具体如何接可以参照本站教程），按住reset键后通电（按住不放15秒-30秒左右，然后松开），即完成了刷机。
 
 （当然也可以用TTL线直接来把X3P_full.bin文件写入，本站博客也是有的，适用于任何系统刷入X3P)
+#### 工具下载：
+> 下载地址1: <https://cloud.189.cn/web/share?code=fE7J7vmIZBre>（访问码：nb1v）
 
-<https://cloud.189.cn/web/share?code=fE7J7vmIZBre>（访问码：nb1v）
+> 下载地址2: https://github.com/aabacada/maopan/releases/download/1/3-Maopan-qunhui-shua-X3P.7z
 
 相关操作如图：
 
