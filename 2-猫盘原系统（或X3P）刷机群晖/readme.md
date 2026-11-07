@@ -19,7 +19,10 @@
 
 本地方案就是用一键刷机洗白工具进行刷机，我们在进行操作时需要首先关闭防火墙，然后把猫盘接入路由器，在路由器后台查看猫盘的IP（记下来），然后再在网络中心查看电脑的IP（记下来），然后到工具中心分别填上两个IP地址即可，再点击刷机，等待10分钟左右，显示刷机成功即可，这个工具刷的是DS119J的群晖引导。
 
-<https://cloud.189.cn/web/share?code=rmQNNr2aEbUn>（访问码：71sv）
+#### 工具下载：
+> 下载地址1:<https://cloud.189.cn/web/share?code=rmQNNr2aEbUn>（访问码：71sv）
+
+> 下载地址2:https://github.com/aabacada/maopan/releases/download/1/2-yijianshuamaopan.zip
 
 相关操作如图：
 
