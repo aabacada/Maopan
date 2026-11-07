@@ -1,7 +1,9 @@
 # 猫盘刷 X3P 一键 V2.0 使用说明
 
 > 本教程为Bee制作的离线安装系统工具使用简单说明，需要保姆式服务的大爷，不需要继续看了。退群吧，我能力有限。
+
 > 刷机工具下载：https://github.com/aabacada/maopan/releases/download/1/1-Maopan-shua-X3P.V2.0.zip
+
 猫盘通电（不管现在是什么系统,H大的除外），获取猫盘IP地址。不知道怎么看猫盘地址的不用继续了。
 
 获取本机PC的ip地址   win键+R  输入 cmd
